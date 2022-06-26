@@ -1,6 +1,10 @@
+import styles from "./Header.module.scss";
+
 function Header() {
   return (
-    <header className="d-flex justify-between align-center p-40">
+    <header
+      className={styles.header + " d-flex justify-between align-center p-40"}
+    >
       <div className="d-flex align-center">
         <img
           className="mr-15"
@@ -9,7 +13,7 @@ function Header() {
           src="/img/logo.png"
           alt="#Logo"
         />
-        <div className="headerInfo">
+        <div className={styles.headerInfo}>
           <h3 className="text-uppercase">react sneakers</h3>
           <p className="opacity-5">Магазин лучших кроссовок</p>
         </div>

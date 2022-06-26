@@ -4,9 +4,44 @@ import Card from "./components/Card";
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
 
+const arr = [
+  {
+    favoriteUrl: true,
+    imageUrl: "/img/items/item1.jpg",
+    title: "Мужские Кроссовки",
+    subtitle: "Nike Blazer Mid Suede",
+    price: 12999,
+    plusUrl: true,
+  },
+  {
+    favoriteUrl: false,
+    imageUrl: "/img/items/item2.jpg",
+    title: "Мужские Кроссовки",
+    subtitle: "Nike Air Max 270",
+    price: 12999,
+    plusUrl: false,
+  },
+  {
+    favoriteUrl: false,
+    imageUrl: "/img/items/item3.jpg",
+    title: "Мужские Кроссовки",
+    subtitle: "Nike Blazer Mid Suede",
+    price: 8499,
+    plusUrl: false,
+  },
+  {
+    favoriteUrl: true,
+    imageUrl: "/img/items/item4.jpg",
+    title: "Кроссовки Puma X",
+    subtitle: "Aka Boku Future Rider",
+    price: 8999,
+    plusUrl: true,
+  },
+];
+
 function App() {
   return (
-    <div className="wrapper clear 123">
+    <div className="wrapper clear">
       {/* CART */}
       <Drawer />
       {/* /.CART */}
@@ -22,108 +57,19 @@ function App() {
           </div>
         </div>
         <div className="sneakers">
-          <Card />
-          <div className="card">
-            <div className="card__item">
-              <div className="card__item__img">
-                <img
-                  className="like"
-                  width={32}
-                  height={32}
-                  src="/img/like.svg"
-                  alt="ActiveLike"
-                />
-                <img
-                  width={133}
-                  height={112}
-                  src="/img/items/item2.jpg"
-                  alt="Item1"
-                />
-              </div>
-              <div className="card__item__text">
-                <p>Мужские Кроссовки</p>
-                <p>Nike Air Max 270</p>
-              </div>
-              <div className="d-flex justify-between align-center mb-35 mt-20">
-                <div className="d-flex flex-column">
-                  <span className="item__cost">Цена:</span>
-                  <b>12 999 руб.</b>
-                </div>
-                <div className="button__plus">
-                  <img
-                    width={32}
-                    height={32}
-                    src="/img/plus_checked.svg"
-                    alt="PlusChecked"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <div className="card__item">
-              <div className="card__item__img">
-                <img
-                  className="like"
-                  width={32}
-                  height={32}
-                  src="/img/like.svg"
-                  alt="ActiveLike"
-                />
-                <img
-                  width={133}
-                  height={112}
-                  src="/img/items/item3.jpg"
-                  alt="Item1"
-                />
-              </div>
-              <div className="card__item__text">
-                <p>Мужские Кроссовки</p>
-                <p>Nike Blazer Mid Suede</p>
-              </div>
-              <div className="d-flex justify-between align-center mb-35 mt-20">
-                <div className="d-flex flex-column">
-                  <span className="item__cost">Цена:</span>
-                  <b>8 499 руб.</b>
-                </div>
-                <div className="button__plus">
-                  <img width={32} height={32} src="/img/plus.svg" alt="" />
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <div className="card__item">
-              <div className="card__item__img">
-                <img
-                  className="like"
-                  width={32}
-                  height={32}
-                  src="/img/like.svg"
-                  alt="ActiveLike"
-                />
-                <img
-                  width={133}
-                  height={112}
-                  src="/img/items/item4.jpg"
-                  alt="Item1"
-                />
-              </div>
-              <div className="card__item__text">
-                <p>Кроссовки Puma X</p>
-                <p>Aka Boku Future Rider</p>
-              </div>
-              <div className="d-flex justify-between align-center mb-35 mt-20">
-                <div className="d-flex flex-column">
-                  <span className="item__cost">Цена:</span>
-                  <b>8 999 руб.</b>
-                </div>
-                <div className="button__plus">
-                  <img width={32} height={32} src="/img/plus.svg" alt="" />
-                </div>
-              </div>
-            </div>
-          </div>
+          {arr.map((item) => (
+            <Card
+              klikni={() => {
+                console.log("test");
+              }}
+              favoriteUrl={item.favoriteUrl}
+              imageUrl={item.imageUrl}
+              title={item.title}
+              subtitle={item.subtitle}
+              price={item.price}
+              plusUrl={item.plusUrl}
+            />
+          ))}
         </div>
       </div>
     </div>

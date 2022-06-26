@@ -1,19 +1,21 @@
+import styles from "./Drawer.module.scss";
+
 function Drawer() {
   return (
-    <div style={{ display: "none" }} className="overlay">
-      <div className="drawer">
-        <div className="cart__items">
+    <div className={styles.overlay}>
+      <div className={styles.drawer}>
+        <div className={styles.cart__items}>
           <h2 className="d-flex justify-between">
             Корзина
             <img
-              className="cart__item__button cu-p"
+              className={styles.cart__item__button + " cu-p"}
               src="img/btn_remove.svg"
               width={32}
               height={32}
               alt="Remove"
             />
           </h2>
-          <div className="cart__item d-flex align-center p-15">
+          <div className={styles.cart__item + " d-flex align-center p-15"}>
             <img
               className="mr-20"
               src="/img/items/item1.jpg"
@@ -21,7 +23,7 @@ function Drawer() {
               height={70}
               alt="Sneakers"
             />
-            <div className="mr-10 cart__item__text">
+            <div className={"mr-10 " + styles.cart__item__text}>
               <p>Мужские Кроссовки</p>
               <p>Nike Air Max 270</p>
               <div className="mt-10">
@@ -29,14 +31,14 @@ function Drawer() {
               </div>
             </div>
             <img
-              className="cart__item__button"
+              className={styles.cart__item__button}
               src="img/btn_remove.svg"
               width={32}
               height={32}
               alt="Remove"
             />
           </div>
-          <div className="cart__item d-flex align-center p-15">
+          <div className={styles.cart__item + " d-flex align-center p-15"}>
             <img
               className="mr-20"
               src="/img/items/item2.jpg"
@@ -44,7 +46,7 @@ function Drawer() {
               height={70}
               alt="Sneakers"
             />
-            <div className="mr-10 cart__item__text">
+            <div className={"mr-10 " + styles.cart__item__text}>
               <p>Мужские Кроссовки</p>
               <p>Nike Air Max 270</p>
               <div className="mt-10">
@@ -52,7 +54,7 @@ function Drawer() {
               </div>
             </div>
             <img
-              className="cart__item__button"
+              className={styles.cart__item__button}
               src="img/btn_remove.svg"
               width={32}
               height={32}
@@ -60,7 +62,7 @@ function Drawer() {
             />
           </div>
         </div>
-        <div className="cart__footer">
+        <div className={styles.cart__footer}>
           <ul>
             <li>
               <span>Итого: </span>
@@ -73,7 +75,7 @@ function Drawer() {
               <b>1074 руб.</b>
             </li>
           </ul>
-          <button className="green__button ">
+          <button className={styles.green__button}>
             Оформить заказ
             <span>
               <img width={13} height={13} src="/img/arrow.svg" alt="Arrow" />
