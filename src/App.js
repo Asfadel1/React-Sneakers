@@ -1,75 +1,108 @@
 import "./main.scss";
-
+import axios from "axios";
+import React from "react";
 import Card from "./components/Card";
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
 
-const arr = [
-  {
-    favoriteUrl: true,
-    imageUrl: "/img/items/item1.jpg",
-    title: "Мужские Кроссовки",
-    subtitle: "Nike Blazer Mid Suede",
-    price: 12999,
-    plusUrl: true,
-  },
-  {
-    favoriteUrl: false,
-    imageUrl: "/img/items/item2.jpg",
-    title: "Мужские Кроссовки",
-    subtitle: "Nike Air Max 270",
-    price: 12999,
-    plusUrl: false,
-  },
-  {
-    favoriteUrl: false,
-    imageUrl: "/img/items/item3.jpg",
-    title: "Мужские Кроссовки",
-    subtitle: "Nike Blazer Mid Suede",
-    price: 8499,
-    plusUrl: false,
-  },
-  {
-    favoriteUrl: true,
-    imageUrl: "/img/items/item4.jpg",
-    title: "Кроссовки Puma X",
-    subtitle: "Aka Boku Future Rider",
-    price: 8999,
-    plusUrl: true,
-  },
-];
-
 function App() {
+  const [items, setItems] = React.useState([]);
+  const [cartItems, setCartItems] = React.useState([]);
+  const [searchItems, setSearchItems] = React.useState("");
+  const [cartOpened, setCartOpened] = React.useState(false);
+
+  const addToCart = (obj) => {
+    axios.post("https://62bd91cdc5ad14c110c1d185.mockapi.io/cart", obj);
+    setCartItems((prev) => [...prev, obj]);
+  };
+
+  const removeFromCart = (id) => {
+    axios.delete(`https://62bd91cdc5ad14c110c1d185.mockapi.io/cart/${id}`);
+    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const searchValue = (event) => {
+    setSearchItems(event.target.value);
+  };
+
+  React.useEffect(() => {
+    // fetch("https://62bd91cdc5ad14c110c1d185.mockapi.io/items")
+    //   .then((res) => {
+    //     return res.json();
+    //   })
+    //   .then((json) => {
+    //     setItems(json);
+    //   });
+
+    axios
+      .get("https://62bd91cdc5ad14c110c1d185.mockapi.io/items")
+      .then((res) => {
+        setItems(res.data);
+      });
+    axios
+      .get("https://62bd91cdc5ad14c110c1d185.mockapi.io/cart")
+      .then((res) => {
+        setCartItems(res.data);
+      });
+  }, []);
+
   return (
     <div className="wrapper clear">
       {/* CART */}
-      <Drawer />
+      {cartOpened && (
+        <Drawer
+          removeFromCart={removeFromCart}
+          closeCartBtn={() => setCartOpened(false)}
+          cartItems={cartItems}
+        />
+      )}
       {/* /.CART */}
 
-      <Header />
+      <Header openCartBtn={() => setCartOpened(true)} />
 
       <div className="content p-40">
         <div className="d-flex align-center justify-between">
-          <h1>Все кроссовки</h1>
+          <h1>
+            {searchItems
+              ? `Поиск по запросу: "${searchItems}"`
+              : "Все кроссовки"}
+          </h1>
           <div className="search__block">
             <img src="/img/search.svg" width={15} height={15} alt="Search" />
-            <input placeholder="Поиск..." />
+            {searchItems && (
+              <img
+                className="cart__item__button cu-p clear__input"
+                src="img/btn_remove.svg"
+                width={22}
+                height={22}
+                alt="ClearSearch"
+                onClick={() => {
+                  setSearchItems("");
+                }}
+              />
+            )}
+            <input
+              onChange={searchValue}
+              value={searchItems}
+              placeholder="Поиск..."
+            />
           </div>
         </div>
         <div className="sneakers">
-          {arr.map((item) => (
-            <Card
-              klikni={() => {
-                console.log("test");
-              }}
-              favoriteUrl={item.favoriteUrl}
-              imageUrl={item.imageUrl}
-              title={item.title}
-              subtitle={item.subtitle}
-              price={item.price}
-              plusUrl={item.plusUrl}
-            />
-          ))}
+          {items
+            .filter((item) =>
+              item.subtitle.toLowerCase().includes(searchItems.toLowerCase())
+            )
+            .map((item, index) => (
+              <Card
+                key={index}
+                imageUrl={item.imageUrl}
+                title={item.title}
+                subtitle={item.subtitle}
+                price={item.price}
+                onClickPlus={addToCart}
+              />
+            ))}
         </div>
       </div>
     </div>
