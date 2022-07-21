@@ -1,13 +1,16 @@
 import "./main.scss";
 import axios from "axios";
 import React from "react";
-import Card from "./components/Card";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import Favorites from "./pages/Favorites";
 import Header from "./components/Header";
 import Drawer from "./components/Drawer";
 
 function App() {
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
+  const [favorites, setFavorites] = React.useState([]);
   const [searchItems, setSearchItems] = React.useState("");
   const [cartOpened, setCartOpened] = React.useState(false);
 
@@ -16,7 +19,19 @@ function App() {
     setCartItems((prev) => [...prev, obj]);
   };
 
+  const addToFavorites = (obj) => {
+    if (favorites.find((favObj) => favObj.id == obj.id)) {
+      axios.delete(
+        `https://62bd91cdc5ad14c110c1d185.mockapi.io/favorites/${obj.id}`
+      );
+    } else {
+      axios.post("https://62bd91cdc5ad14c110c1d185.mockapi.io/favorites", obj);
+      setFavorites((prev) => [...prev, obj]);
+    }
+  };
+
   const removeFromCart = (id) => {
+    console.log(id);
     axios.delete(`https://62bd91cdc5ad14c110c1d185.mockapi.io/cart/${id}`);
     setCartItems((prev) => prev.filter((item) => item.id !== id));
   };
@@ -26,14 +41,6 @@ function App() {
   };
 
   React.useEffect(() => {
-    // fetch("https://62bd91cdc5ad14c110c1d185.mockapi.io/items")
-    //   .then((res) => {
-    //     return res.json();
-    //   })
-    //   .then((json) => {
-    //     setItems(json);
-    //   });
-
     axios
       .get("https://62bd91cdc5ad14c110c1d185.mockapi.io/items")
       .then((res) => {
@@ -43,6 +50,11 @@ function App() {
       .get("https://62bd91cdc5ad14c110c1d185.mockapi.io/cart")
       .then((res) => {
         setCartItems(res.data);
+      });
+    axios
+      .get("https://62bd91cdc5ad14c110c1d185.mockapi.io/favorites")
+      .then((res) => {
+        setFavorites(res.data);
       });
   }, []);
 
@@ -60,51 +72,36 @@ function App() {
 
       <Header openCartBtn={() => setCartOpened(true)} />
 
-      <div className="content p-40">
-        <div className="d-flex align-center justify-between">
-          <h1>
-            {searchItems
-              ? `Поиск по запросу: "${searchItems}"`
-              : "Все кроссовки"}
-          </h1>
-          <div className="search__block">
-            <img src="/img/search.svg" width={15} height={15} alt="Search" />
-            {searchItems && (
-              <img
-                className="cart__item__button cu-p clear__input"
-                src="img/btn_remove.svg"
-                width={22}
-                height={22}
-                alt="ClearSearch"
-                onClick={() => {
-                  setSearchItems("");
-                }}
-              />
-            )}
-            <input
-              onChange={searchValue}
-              value={searchItems}
-              placeholder="Поиск..."
+      <Routes>
+        <Route
+          path="/"
+          exact
+          element={
+            <Home
+              items={items}
+              searchItems={searchItems}
+              setSearchItems={searchItems}
+              searchValue={searchValue}
+              addToFavorites={addToFavorites}
+              addToCart={addToCart}
             />
-          </div>
-        </div>
-        <div className="sneakers">
-          {items
-            .filter((item) =>
-              item.subtitle.toLowerCase().includes(searchItems.toLowerCase())
-            )
-            .map((item, index) => (
-              <Card
-                key={index}
-                imageUrl={item.imageUrl}
-                title={item.title}
-                subtitle={item.subtitle}
-                price={item.price}
-                onClickPlus={addToCart}
-              />
-            ))}
-        </div>
-      </div>
+          }
+        />
+      </Routes>
+
+      <Routes>
+        <Route
+          path="/favorites"
+          exact
+          element={
+            <Favorites
+              addToFavorites={addToFavorites}
+              addToCart={addToCart}
+              items={favorites}
+            />
+          }
+        />
+      </Routes>
     </div>
   );
 }

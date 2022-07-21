@@ -1,7 +1,6 @@
 /* SIDEBAR */
 
 .overlay {
-  // display: none;
   position: absolute;
   left: 0;
   top: 0;
@@ -12,9 +11,9 @@
 }
 
 .drawer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  // display: flex;
+  // flex-direction: column;
+  // justify-content: space-between;
   padding: 25px;
   position: absolute;
   right: 0;
@@ -28,7 +27,15 @@
   }
 
   .cart__items {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     overflow: auto;
+
+    .main__items {
+      flex: 1;
+    }
   }
 }
 

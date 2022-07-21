@@ -1,0 +1,35 @@
+.empty__cart {
+  flex: 1;
+  margin-top: 50%;
+  text-align: center;
+
+  p {
+    text-align: left;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    color: #000000;
+    opacity: 0.4;
+  }
+
+  button {
+    position: relative;
+
+    span {
+      position: relative;
+      top: 1px;
+      left: -15px;
+      opacity: 0.8;
+      transition: opacity 0.2s linear, left 0.15s linear;
+    }
+
+    &:hover {
+      span {
+        left: -25px;
+        opacity: 1;
+      }
+    }
+  }
+}
